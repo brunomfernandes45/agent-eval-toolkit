@@ -1,0 +1,90 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  conformance:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.13"]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install locked development environment
+        run: uv sync --locked --extra dev
+
+      - name: Run Black
+        run: uv run black --check src tests experiments verification report/figures
+
+      - name: Run Ruff
+        run: uv run ruff check src tests experiments verification report/figures
+
+      - name: Run Mypy
+        run: uv run mypy src
+
+      - name: Run tests with line and branch coverage
+        run: |
+          uv run coverage erase
+          uv run coverage run --branch -m unittest discover -s tests
+          uv run coverage report --fail-under=90
+          uv run coverage json -o coverage.json
+
+      - name: Enforce overall branch threshold
+        run: |
+          uv run python - <<'PY'
+          import json
+          coverage = json.load(open("coverage.json", encoding="utf-8"))
+          actual = coverage["totals"]["percent_branches_covered"]
+          if actual < 85.0:
+              raise SystemExit(f"Branch coverage {actual:.3f}% is below 85%")
+          print(f"Branch coverage: {actual:.3f}%")
+          PY
+
+      - name: Enforce thesis-critical branch coverage
+        run: |
+          uv run python verification/validate_critical_branches.py \
+            --manifest verification/critical_branches.json \
+            --mutants verification/critical_mutants.json \
+            --coverage-json coverage.json
+
+      - name: Run targeted critical mutation campaign
+        if: matrix.python-version == '3.13'
+        run: |
+          uv run python experiments/run_targeted_mutation_campaign.py \
+            --spec verification/critical_mutants.json \
+            --output-dir mutation-ci \
+            --overwrite
+
+      - name: Build distributions
+        if: matrix.python-version == '3.13'
+        env:
+          SOURCE_DATE_EPOCH: "1704067200"
+          PYTHONHASHSEED: "0"
+        run: uv run python -m build
+
+      - name: Exercise the built wheel in a clean environment
+        if: matrix.python-version == '3.13'
+        run: |
+          python -m venv wheel-venv
+          wheel-venv/bin/python -m pip install --no-deps dist/*.whl
+          wheel-venv/bin/python -m agent_eval_toolkit list-templates
+          uv run python experiments/run_readiness_suite.py \
+            --wheel dist/*.whl \
+            --output-dir readiness-ci \
+            --overwrite

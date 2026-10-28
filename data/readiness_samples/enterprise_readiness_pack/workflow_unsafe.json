@@ -1,0 +1,33 @@
+{
+  "workflow_family": "thesis_readiness_workflow",
+  "workflow_definition_id": "thesis-readiness.v1",
+  "source_schema": {
+    "event_id_field": "event_id",
+    "timestamp_field": "timestamp",
+    "event_type_field": "event_name"
+  },
+  "event_type_map": {
+    "workflow_started": "run_started",
+    "workflow_completed": "run_completed",
+    "workflow_failed": "run_failed"
+  },
+  "run_boundaries": {
+    "start_event_type": "run_started",
+    "completed_event_type": "run_completed",
+    "failed_event_type": "run_failed"
+  },
+  "telemetry_capabilities": [],
+  "run_id_keys": ["workflow_run_id"],
+  "trace_id_keys": ["trace_id"],
+  "step_name_keys": ["step_name"],
+  "status_field": "ticket_text",
+  "agent_configuration_id_field": "agent_config_id",
+  "agent_version_field": "agent_version",
+  "configuration_hash_field": "config_hash",
+  "capture_raw_fields": ["ticket_text"],
+  "metadata_fields": [],
+  "allowed_metadata_fields": [],
+  "restricted_fields": ["ticket_text"],
+  "redact_raw_fields": ["ticket_text"],
+  "evidence_mode": "anchor_hash_redacted_snapshot"
+}

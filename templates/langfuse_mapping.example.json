@@ -1,0 +1,25 @@
+{
+  "description": "Review every metadata path and business-status value, then set status_mapping.approved to true before preparing an export.",
+  "workflow_family": "replace-with-workflow-family",
+  "workflow_definition_id": "replace-with-workflow-definition-id",
+  "metadata_paths": {
+    "status": "metadata.business_status",
+    "agent_configuration_id": "metadata.agent_configuration_id",
+    "agent_version": "metadata.agent_version",
+    "configuration_hash": "metadata.configuration_hash",
+    "retry": "metadata.retry_attempt",
+    "intervention": "metadata.human_intervention",
+    "handoff": "metadata.handoff_target",
+    "routing": "metadata.routing_decision",
+    "quality": "metadata.quality_score"
+  },
+  "status_mapping": {
+    "approved": false,
+    "completed": [
+      "completed"
+    ],
+    "failed": [
+      "failed"
+    ]
+  }
+}

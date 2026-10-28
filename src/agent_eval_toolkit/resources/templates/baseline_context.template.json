@@ -1,0 +1,21 @@
+{
+  "manual_baseline_cycle_time_seconds": 0,
+  "manual_baseline_human_effort_seconds": 0,
+  "loaded_labor_rate_usd_per_hour": 0,
+  "overhead_cost_usd_per_run": 0,
+  "tooling_cost_usd_per_run": 0,
+  "sensitivity": {
+    "manual_baseline_cycle_time_seconds": {
+      "low": 0,
+      "high": 0
+    },
+    "manual_baseline_human_effort_seconds": {
+      "low": 0,
+      "high": 0
+    },
+    "loaded_labor_rate_usd_per_hour": {
+      "low": 0,
+      "high": 0
+    }
+  }
+}

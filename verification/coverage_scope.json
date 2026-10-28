@@ -1,0 +1,16 @@
+{
+  "coverage_scope_schema_version": "1.0.0",
+  "scope_id": "frozen_core_structural_coverage",
+  "description": "Structural coverage of the frozen toolkit core. The optional OpenTelemetry adapter module, its registration glue, and two command-boundary setup calls covered by public-interface testing are excluded from the headline denominator.",
+  "included_source": "agent_eval_toolkit",
+  "excluded_file_patterns": [
+    "*/agent_eval_toolkit/opentelemetry.py"
+  ],
+  "excluded_source_markers": [
+    "pragma: no cover -- optional adapter glue",
+    "pragma: no cover -- optional adapter registration",
+    "pragma: no cover -- public-interface setup"
+  ],
+  "independent_verification_of_excluded_path": "The OpenTelemetry adapter remains exercised by its module tests and installed public-interface readiness scenarios; only its statements and registration branches are outside the frozen core headline denominator.",
+  "rationale": "This preserves the predeclared structural baseline after addition of an optional interoperability adapter. The excluded adapter and command-boundary setup remain tested through the public interface and are not presented as untested."
+}

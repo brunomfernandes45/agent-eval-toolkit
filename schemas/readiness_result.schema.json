@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-eval-toolkit.local/schemas/readiness_result.schema.json",
+  "title": "Synthetic Readiness Suite Result",
+  "type": "object",
+  "required": [
+    "readiness_schema_version", "suite", "command_mode", "overall_status",
+    "scenario_count", "passed_scenario_count", "failed_scenario_count",
+    "metric_check_count", "metric_check_pass_count", "governance_check_count",
+    "governance_check_pass_count", "interpretation"
+  ],
+  "properties": {
+    "readiness_schema_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "suite": {"type": "string", "minLength": 1},
+    "command_mode": {"type": "string", "minLength": 1},
+    "overall_status": {"enum": ["passed", "failed"]},
+    "scenario_count": {"type": "integer", "minimum": 0},
+    "passed_scenario_count": {"type": "integer", "minimum": 0},
+    "failed_scenario_count": {"type": "integer", "minimum": 0},
+    "metric_check_count": {"type": "integer", "minimum": 0},
+    "metric_check_pass_count": {"type": "integer", "minimum": 0},
+    "governance_check_count": {"type": "integer", "minimum": 0},
+    "governance_check_pass_count": {"type": "integer", "minimum": 0},
+    "interpretation": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,31 @@
+{
+  "evaluation_id": "synthetic-otel-preparation-001",
+  "evaluation_design": "monitoring",
+  "evidence_context": {"source_kind": "synthetic_fixture", "mapping_assessment_required": true},
+  "publication_policy": {"minimum_evidence_tier": "mapping_only"},
+  "measurement_window": {"start": "2026-07-01T00:00:00Z", "end": "2026-07-02T00:00:00Z", "timezone": "UTC"},
+  "baseline": {"name": "not_applicable", "type": "none", "definition": "No performance baseline is used for preparation conformance."},
+  "comparator": {"name": "not_applicable", "type": "none", "definition": "No performance comparator is used for preparation conformance."},
+  "assumptions": {},
+  "telemetry_requirements": {"required": ["run_id", "timestamp", "status"], "optional": ["quality_score"]},
+  "configuration": {"agent_configuration_id": "support-agent.v1", "agent_version": "2026-07-01", "configuration_hash": "sha256:synthetic-configuration-v1"},
+  "expected_configurations": [],
+  "taxonomy": {
+    "deployment_mode": "offline_verification",
+    "workflow_integration": "telemetry_preparation",
+    "autonomy_level": "not_applicable",
+    "hitl_pattern": "mapping_approval",
+    "statefulness": "workflow_stateful",
+    "memory_strategy": "none",
+    "composition": "single_agent",
+    "decomposition_strategy": "workflow_defined",
+    "allocation_mechanism": "static_assignment",
+    "routing_strategy": "not_applicable",
+    "protocol_surfaces": ["OTLP/JSON"]
+  },
+  "inclusion_rules": ["Include all synthetic OpenTelemetry LogRecords."],
+  "exclusion_rules": [],
+  "run_exclusions": [],
+  "interpretation_boundaries": ["Synthetic preparation evidence does not estimate enterprise impact."],
+  "concurrent_changes": []
+}

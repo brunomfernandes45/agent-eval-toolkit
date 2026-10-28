@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-eval-toolkit.local/schemas/diagnostics.schema.json",
+  "title": "Agent Evaluation Diagnostics",
+  "type": "object",
+  "required": ["diagnostic_schema_version", "passed", "stage", "diagnostic_count", "diagnostics"],
+  "properties": {
+    "diagnostic_schema_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "passed": {"type": "boolean"},
+    "stage": {"type": "string", "minLength": 1},
+    "diagnostic_count": {"type": "integer", "minimum": 0},
+    "diagnostics": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/diagnostic"}
+    }
+  },
+  "$defs": {
+    "diagnostic": {
+      "type": "object",
+      "required": [
+        "code", "severity", "stage", "message", "blocking_scope", "affected_outputs",
+        "evidence_tier_impact", "remediation_code", "recommended_action"
+      ],
+      "properties": {
+        "code": {
+          "enum": [
+            "CANONICAL_DUPLICATE_EVENT_ID", "CANONICAL_UNSUPPORTED_EVENT_TYPE",
+            "CANONICAL_INVALID_IDENTIFIER", "CANONICAL_INVALID_TIMESTAMP",
+            "CANONICAL_NEGATIVE_VALUE", "CONFIG_UNRESOLVED_PLACEHOLDER",
+            "AGGREGATION_SEMANTICS_UNSUPPORTED", "MANIFEST_INVALID_WINDOW",
+            "BOUNDARY_MISSING_START", "BOUNDARY_MISSING_TERMINAL",
+            "BOUNDARY_DUPLICATE_START", "BOUNDARY_CONFLICTING_TERMINAL",
+            "BOUNDARY_POST_TERMINAL_EVENT", "BOUNDARY_AMBIGUOUS_TIMESTAMP",
+            "CONFIGURATION_DRIFT", "CONFIGURATION_UNEXPECTED",
+            "TELEMETRY_REQUIRED_SIGNAL_MISSING", "PRIVACY_RESTRICTED_MAPPING",
+            "LANGFUSE_INCOMPLETE_PAGINATION", "LANGFUSE_STATUS_MAPPING_REQUIRED",
+            "MAPPING_ACTIVITY_EFFORT_INCOMPLETE", "MAPPING_APPROVAL_REQUIRED",
+            "MAPPING_ASSESSMENT_REQUIRED", "MAPPING_CRITICAL_ISSUE_OPEN",
+            "MAPPING_REQUIRED_SIGNAL_UNMAPPED", "MAPPING_SEMANTICS_UNRESOLVED",
+            "MAPPING_SOURCE_PATH_UNOBSERVED", "MAPPING_TRANSFORMATION_UNTESTED",
+            "EVIDENCE_TIER_PARTIAL", "EVIDENCE_TIER_MAPPING_ONLY", "EVIDENCE_TIER_BLOCKED",
+            "EVIDENCE_MINIMUM_TIER_NOT_MET",
+            "PACKAGE_HASH_MISMATCH",
+            "PIPELINE_STAGE_FAILED"
+          ]
+        },
+        "severity": {"enum": ["error", "warning", "info"]},
+        "blocking_scope": {"enum": ["bundle", "mapping", "run", "metric", "claim", "none"]},
+        "affected_outputs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "stage": {"type": "string", "minLength": 1},
+        "message": {"type": "string", "minLength": 1},
+        "evidence_tier_impact": {"type": "string", "minLength": 1},
+        "remediation_code": {"type": "string", "minLength": 1},
+        "recommended_action": {"type": "string", "minLength": 1},
+        "field": {"type": "string", "minLength": 1},
+        "event_id": {"type": "string", "minLength": 1},
+        "run_id": {"type": "string", "minLength": 1},
+        "source_line": {"type": "integer", "minimum": 1},
+        "details": {"type": "object"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

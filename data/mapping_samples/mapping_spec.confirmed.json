@@ -1,0 +1,18 @@
+{
+  "mapping_spec_schema_version": "1.0.0",
+  "mapping_id": "synthetic-enterprise-mapping-001",
+  "mapping_version": "v2",
+  "logical_source_id": "synthetic-enterprise-source-001",
+  "mappings": [
+    {"canonical_signal": "run_id", "source_paths": ["trace.id"], "transformation": "direct", "semantic_status": "confirmed", "transformation_tested": true, "approval": {"status": "approved", "reviewer_role": "workflow-owner", "evidence_ref": "decision-record-001"}},
+    {"canonical_signal": "timestamp", "source_paths": ["event.time"], "transformation": "coercion", "semantic_status": "confirmed", "transformation_tested": true, "approval": {"status": "approved", "reviewer_role": "workflow-owner", "evidence_ref": "decision-record-002"}},
+    {"canonical_signal": "status", "source_paths": ["metadata.business_status"], "transformation": "lookup", "semantic_status": "confirmed", "transformation_tested": true, "approval": {"status": "approved", "reviewer_role": "workflow-owner", "evidence_ref": "decision-record-003"}},
+    {"canonical_signal": "quality_score", "source_paths": ["scores.quality"], "transformation": "direct", "semantic_status": "confirmed", "transformation_tested": true, "approval": {"status": "approved", "reviewer_role": "workflow-owner", "evidence_ref": "decision-record-004"}}
+  ],
+  "workflow_boundary_approval": {"status": "approved", "reviewer_role": "workflow-owner", "evidence_ref": "boundary-review-001"},
+  "business_status_approval": {"status": "approved", "reviewer_role": "workflow-owner", "evidence_ref": "status-review-001"},
+  "privacy_approval": {"status": "approved", "reviewer_role": "privacy-reviewer", "evidence_ref": "privacy-review-001"},
+  "issues": [
+    {"issue_id": "MAP-001", "severity": "warning", "status": "resolved", "canonical_signal": "status", "evidence_ref": "decision-record-003"}
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "evaluation_id": "TODO_BEFORE_AFTER_EVALUATION_ID",
+  "evaluation_design": "before_after",
+  "evidence_context": {
+    "source_kind": "enterprise_operational",
+    "mapping_assessment_required": true
+  },
+  "publication_policy": {
+    "minimum_evidence_tier": "partial"
+  },
+  "measurement_window": {
+    "start": "2026-01-01T00:00:00Z",
+    "end": "2026-01-31T00:00:00Z",
+    "timezone": "UTC"
+  },
+  "baseline": {
+    "name": "before_window",
+    "type": "previous_agent_version",
+    "definition": "Runs observed before the evaluated change.",
+    "agent_configuration_id": "baseline-agent.v1"
+  },
+  "comparator": {
+    "name": "after_window",
+    "type": "agent_configuration",
+    "definition": "Runs observed after the evaluated change.",
+    "agent_configuration_id": "candidate-agent.v1"
+  },
+  "assumptions": {},
+  "telemetry_requirements": {
+    "required": [
+      "run_id",
+      "timestamp",
+      "workflow_definition_id",
+      "trace_id",
+      "event_type",
+      "status",
+      "step_name",
+      "agent_configuration_id",
+      "agent_version",
+      "configuration_hash"
+    ],
+    "optional": [
+      "business_success",
+      "human_effort_seconds",
+      "input_tokens",
+      "output_tokens",
+      "observed_cost_usd",
+      "quality_score",
+      "failure_mode",
+      "tool_call_trace"
+    ]
+  },
+  "configuration": {
+    "agent_configuration_id": "candidate-agent.v1",
+    "agent_version": "TODO_AGENT_VERSION",
+    "configuration_hash": "TODO_CONFIGURATION_HASH"
+  },
+  "taxonomy": {
+    "deployment_mode": "embedded_automation",
+    "workflow_integration": "TODO_WORKFLOW",
+    "autonomy_level": "bounded_autonomy",
+    "hitl_pattern": "TODO_HITL_PATTERN",
+    "statefulness": "workflow_stateful",
+    "memory_strategy": "TODO_MEMORY_STRATEGY",
+    "composition": "single_agent_with_tools",
+    "decomposition_strategy": "TODO_DECOMPOSITION",
+    "allocation_mechanism": "TODO_ALLOCATION",
+    "routing_strategy": "TODO_ROUTING",
+    "protocol_surfaces": []
+  },
+  "inclusion_rules": [
+    "Include runs from the declared before and after windows with the same workflow boundary."
+  ],
+  "exclusion_rules": [
+    "Exclude runs affected by known workflow-boundary or configuration drift."
+  ],
+  "run_exclusions": [],
+  "interpretation_boundaries": [
+    "Before/after evidence is descriptive and remains sensitive to seasonality, learning, task-mix changes, and concurrent changes."
+  ],
+  "concurrent_changes": [
+    "TODO document concurrent operational changes."
+  ]
+}

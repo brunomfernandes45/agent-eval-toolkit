@@ -1,0 +1,15 @@
+{
+  "source_profile_schema_version": "1.0.0",
+  "logical_source_id": "synthetic-enterprise-source-001",
+  "source_kind": "synthetic_fixture",
+  "file_count": 2,
+  "record_count": 12,
+  "formats": ["json", "jsonl"],
+  "field_inventory": [
+    {"path": "event.time", "observed_count": 12, "record_denominator": 12, "coverage": 1.0, "value_types": ["string"]},
+    {"path": "metadata.business_status", "observed_count": 12, "record_denominator": 12, "coverage": 1.0, "value_types": ["string"]},
+    {"path": "scores.quality", "observed_count": 9, "record_denominator": 12, "coverage": 0.75, "value_types": ["number"]},
+    {"path": "trace.id", "observed_count": 12, "record_denominator": 12, "coverage": 1.0, "value_types": ["string"]}
+  ],
+  "manual_review_record_count": 3
+}

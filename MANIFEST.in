@@ -1,0 +1,6 @@
+include README.md
+include LICENSE
+recursive-include docs *.md
+recursive-include templates *.json *.jsonl *.md
+recursive-include src/agent_eval_toolkit/resources/docs *.md
+recursive-include src/agent_eval_toolkit/resources/templates *.json *.jsonl *.md

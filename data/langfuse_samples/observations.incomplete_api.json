@@ -1,0 +1,18 @@
+{
+  "data": [
+    {
+      "id": "synthetic-incomplete-observation-1",
+      "traceId": "synthetic-incomplete-trace-1",
+      "startTime": "2026-07-01T10:00:00Z",
+      "endTime": "2026-07-01T10:03:00Z",
+      "type": "GENERATION",
+      "name": "resolve-ticket",
+      "metadata": {
+        "business_status": "done"
+      }
+    }
+  ],
+  "meta": {
+    "cursor": "synthetic-next-page-cursor"
+  }
+}

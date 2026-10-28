@@ -1,0 +1,31 @@
+{
+  "evaluation_id": "synthetic-mapping-conformance-001",
+  "evaluation_design": "monitoring",
+  "evidence_context": {"source_kind": "synthetic_fixture", "mapping_assessment_required": true},
+  "publication_policy": {"minimum_evidence_tier": "mapping_only"},
+  "measurement_window": {"start": "2026-04-01T00:00:00Z", "end": "2026-04-02T00:00:00Z", "timezone": "UTC"},
+  "baseline": {"name": "not_applicable", "type": "none", "definition": "No performance baseline is used for mapping-conformance verification."},
+  "comparator": {"name": "not_applicable", "type": "none", "definition": "No performance comparator is used for mapping-conformance verification."},
+  "assumptions": {},
+  "telemetry_requirements": {"required": ["run_id", "timestamp", "status"], "optional": ["quality_score"]},
+  "configuration": {"agent_configuration_id": "synthetic.config", "agent_version": "fixture", "configuration_hash": "sha256:synthetic-fixture"},
+  "expected_configurations": [],
+  "taxonomy": {
+    "deployment_mode": "offline_verification",
+    "workflow_integration": "mapping_assessment",
+    "autonomy_level": "not_applicable",
+    "hitl_pattern": "mapping_approval",
+    "statefulness": "stateless",
+    "memory_strategy": "none",
+    "composition": "single_adapter",
+    "decomposition_strategy": "signal_mapping",
+    "allocation_mechanism": "static_assignment",
+    "routing_strategy": "not_applicable",
+    "protocol_surfaces": []
+  },
+  "inclusion_rules": ["Include all hand-authored mapping fixture rows."],
+  "exclusion_rules": [],
+  "run_exclusions": [],
+  "interpretation_boundaries": ["Synthetic activity values verify calculation mechanics and do not estimate enterprise onboarding burden."],
+  "concurrent_changes": []
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-eval-toolkit.local/schemas/evaluation_readiness.schema.json",
+  "title": "Evaluation Evidence Readiness",
+  "type": "object",
+  "required": [
+    "readiness_schema_version", "attained_tier", "minimum_tier", "minimum_tier_met",
+    "mapping_readiness", "analytical_readiness", "governance_safety", "metric_statuses",
+    "quarantined_run_count", "withheld_reasons"
+  ],
+  "properties": {
+    "readiness_schema_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "attained_tier": {"enum": ["blocked", "mapping_only", "partial", "complete"]},
+    "minimum_tier": {"enum": ["mapping_only", "partial", "complete"]},
+    "minimum_tier_met": {"type": "boolean"},
+    "mapping_readiness": {"enum": ["not_applicable", "not_assessed", "blocked", "provisional", "verified"]},
+    "analytical_readiness": {"enum": ["blocked", "mapping_only", "partial", "complete"]},
+    "governance_safety": {"enum": ["passed", "failed", "not_assessed"]},
+    "metric_statuses": {"type": "object", "additionalProperties": {"$ref": "#/$defs/metricStatus"}},
+    "quarantined_run_count": {"type": "integer", "minimum": 0},
+    "withheld_reasons": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "metricStatus": {
+      "type": "object",
+      "required": [
+        "status", "covered_run_count", "eligible_run_count",
+        "population_denominator", "run_denominator", "withheld_reasons"
+      ],
+      "properties": {
+        "status": {"enum": ["available", "partial", "withheld", "unsupported"]},
+        "covered_run_count": {"type": "integer", "minimum": 0},
+        "eligible_run_count": {"type": "integer", "minimum": 0},
+        "population_denominator": {"type": "integer", "minimum": 0},
+        "run_denominator": {"type": "integer", "minimum": 0},
+        "withheld_reasons": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

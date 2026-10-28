@@ -1,0 +1,70 @@
+{
+  "evaluation_id": "thesis-readiness-redaction",
+  "evaluation_design": "monitoring",
+  "measurement_window": {
+    "start": "2026-04-03T00:00:00Z",
+    "end": "2026-04-04T00:00:00Z",
+    "timezone": "UTC"
+  },
+  "baseline": {
+    "name": "not_applicable",
+    "type": "monitoring_reference",
+    "definition": "No causal baseline is used in this privacy-control scenario."
+  },
+  "comparator": {
+    "name": "privacy_agent_v1",
+    "type": "agent_configuration",
+    "definition": "Synthetic configuration used to verify restricted-field masking."
+  },
+  "assumptions": {},
+  "telemetry_requirements": {
+    "required": [
+      "run_id",
+      "timestamp",
+      "duration",
+      "workflow_definition_id",
+      "trace_id",
+      "event_type",
+      "status",
+      "step_name",
+      "agent_configuration_id",
+      "agent_version",
+      "configuration_hash",
+      "input_tokens",
+      "output_tokens",
+      "quality_score",
+      "retry_markers",
+      "intervention_markers",
+      "tool_call_trace"
+    ],
+    "optional": [
+      "observed_cost_usd",
+      "failure_modes",
+      "handoff_targets",
+      "routing_decisions"
+    ]
+  },
+  "configuration": {
+    "agent_configuration_id": "privacy-agent.v1",
+    "agent_version": "2026-04-01",
+    "configuration_hash": "sha256:privacy-agent-v1"
+  },
+  "taxonomy": {
+    "deployment_mode": "synthetic_test",
+    "workflow_integration": "offline_harness",
+    "autonomy_level": "bounded_autonomy",
+    "hitl_pattern": "none",
+    "statefulness": "workflow_stateful",
+    "memory_strategy": "trace_only",
+    "composition": "single_agent",
+    "decomposition_strategy": "fixed_steps",
+    "allocation_mechanism": "static_assignment",
+    "routing_strategy": "none",
+    "protocol_surfaces": ["synthetic_jsonl"]
+  },
+  "inclusion_rules": ["Include the hand-authored privacy-control run."],
+  "exclusion_rules": [],
+  "run_exclusions": [],
+  "interpretation_boundaries": ["This scenario proves masking behavior, not operational impact."],
+  "concurrent_changes": []
+}

@@ -1,0 +1,11 @@
+{
+  "mapping_spec_schema_version": "1.0.0",
+  "mapping_id": "TODO_MAPPING_ID",
+  "mapping_version": "TODO_MAPPING_VERSION",
+  "logical_source_id": "TODO_LOGICAL_SOURCE_ID",
+  "mappings": [],
+  "workflow_boundary_approval": {"status": "unresolved", "reviewer_role": null, "evidence_ref": null},
+  "business_status_approval": {"status": "unresolved", "reviewer_role": null, "evidence_ref": null},
+  "privacy_approval": {"status": "unresolved", "reviewer_role": null, "evidence_ref": null},
+  "issues": []
+}

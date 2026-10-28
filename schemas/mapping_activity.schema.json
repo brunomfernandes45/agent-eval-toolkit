@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-eval-toolkit.local/schemas/mapping_activity.schema.json",
+  "title": "Mapping Activity Record",
+  "type": "object",
+  "required": ["activity_id", "timestamp", "actor_role", "activity_type", "mapping_version"],
+  "properties": {
+    "activity_id": {"type": "string", "minLength": 1},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "actor_role": {"type": "string", "minLength": 1},
+    "activity_type": {"enum": ["source_review", "mapping_change", "semantic_decision", "stakeholder_question", "test_run", "approval", "issue_opened", "issue_resolved"]},
+    "active_effort_minutes": {"type": ["number", "null"], "minimum": 0},
+    "mapping_version": {"type": "string", "minLength": 1},
+    "issue_id": {"type": ["string", "null"]},
+    "outcome": {"type": ["string", "null"]}
+  },
+  "additionalProperties": false
+}

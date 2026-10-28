@@ -1,0 +1,88 @@
+{
+  "evaluation_id": "thesis-readiness-synthetic-comparator",
+  "evaluation_design": "scenario_suite",
+  "measurement_window": {
+    "start": "2026-04-02T00:00:00Z",
+    "end": "2026-04-03T00:00:00Z",
+    "timezone": "UTC"
+  },
+  "baseline": {
+    "name": "control_agent",
+    "type": "agent_configuration",
+    "definition": "Hand-authored synthetic control configuration.",
+    "agent_configuration_id": "control-agent.v1"
+  },
+  "comparator": {
+    "name": "treatment_agent",
+    "type": "agent_configuration",
+    "definition": "Hand-authored synthetic treatment configuration.",
+    "agent_configuration_id": "treatment-agent.v1"
+  },
+  "assumptions": {},
+  "telemetry_requirements": {
+    "required": [
+      "run_id",
+      "timestamp",
+      "duration",
+      "workflow_definition_id",
+      "trace_id",
+      "event_type",
+      "status",
+      "step_name",
+      "agent_configuration_id",
+      "agent_version",
+      "configuration_hash",
+      "input_tokens",
+      "output_tokens",
+      "quality_score"
+    ],
+    "optional": [
+      "observed_cost_usd",
+      "retry_markers",
+      "intervention_markers",
+      "tool_call_trace"
+    ]
+  },
+  "configuration": {
+    "agent_configuration_id": "synthetic-comparator-matrix",
+    "agent_version": "2026-04-01",
+    "configuration_hash": "sha256:synthetic-comparator-matrix"
+  },
+  "expected_configurations": [
+    {
+      "group": "control",
+      "agent_configuration_id": "control-agent.v1",
+      "agent_version": "2026-04-01",
+      "configuration_hash": "sha256:control-agent-v1",
+      "required": true
+    },
+    {
+      "group": "treatment",
+      "agent_configuration_id": "treatment-agent.v1",
+      "agent_version": "2026-04-01",
+      "configuration_hash": "sha256:treatment-agent-v1",
+      "required": true
+    }
+  ],
+  "taxonomy": {
+    "deployment_mode": "synthetic_test",
+    "workflow_integration": "offline_harness",
+    "autonomy_level": "bounded_autonomy",
+    "hitl_pattern": "none",
+    "statefulness": "workflow_stateful",
+    "memory_strategy": "trace_only",
+    "composition": "single_agent_with_tools",
+    "decomposition_strategy": "fixed_steps",
+    "allocation_mechanism": "static_assignment",
+    "routing_strategy": "rule_based",
+    "protocol_surfaces": ["synthetic_jsonl"]
+  },
+  "inclusion_rules": ["Include the paired synthetic control and treatment runs."],
+  "exclusion_rules": [],
+  "run_exclusions": [],
+  "interpretation_boundaries": [
+    "Arithmetic deltas are readiness evidence only.",
+    "This synthetic scenario does not establish causal or enterprise impact."
+  ],
+  "concurrent_changes": []
+}

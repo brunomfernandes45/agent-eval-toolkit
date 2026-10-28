@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-eval-toolkit.local/schemas/mapping_assessment.schema.json",
+  "title": "Mapping Readiness Assessment",
+  "type": "object",
+  "required": [
+    "mapping_assessment_schema_version", "mapping_id", "mapping_version", "logical_source_id",
+    "mapping_readiness", "required_signal_summary", "signals", "approvals",
+    "open_critical_issue_count", "mapping_spec_sha256", "source_profile_sha256",
+    "diagnostic_count", "diagnostic_codes"
+  ],
+  "properties": {
+    "mapping_assessment_schema_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "mapping_id": {"type": "string", "minLength": 1},
+    "mapping_version": {"type": "string", "minLength": 1},
+    "logical_source_id": {"type": "string", "minLength": 1},
+    "mapping_readiness": {"enum": ["blocked", "provisional", "verified"]},
+    "required_signal_summary": {"$ref": "#/$defs/signalSummary"},
+    "optional_signal_count": {"type": "integer", "minimum": 0},
+    "signals": {"type": "object", "additionalProperties": {"type": "object"}},
+    "approvals": {"type": "object", "additionalProperties": {"enum": ["approved", "provisional", "unresolved"]}},
+    "open_critical_issue_count": {"type": "integer", "minimum": 0},
+    "mapping_spec_sha256": {"$ref": "#/$defs/sha256"},
+    "source_profile_sha256": {"$ref": "#/$defs/sha256"},
+    "diagnostic_count": {"type": "integer", "minimum": 0},
+    "diagnostic_codes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "signalSummary": {
+      "type": "object",
+      "required": ["signal_count", "mapped_count", "observed_count", "transformation_tested_count", "semantically_approved_count"],
+      "properties": {
+        "signal_count": {"type": "integer", "minimum": 0},
+        "mapped_count": {"type": "integer", "minimum": 0},
+        "observed_count": {"type": "integer", "minimum": 0},
+        "transformation_tested_count": {"type": "integer", "minimum": 0},
+        "semantically_approved_count": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

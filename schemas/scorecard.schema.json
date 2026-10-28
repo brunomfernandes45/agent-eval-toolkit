@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-eval-toolkit.local/schemas/scorecard.schema.json",
+  "title": "Agent Evaluation Scorecard",
+  "type": "object",
+  "required": [
+    "evaluation", "workflow_family", "workflow_definition_id", "run_count",
+    "measurement_window_summary", "observed_summary", "assumption_based_summary",
+    "comparator_summary", "telemetry_validation", "missing_telemetry_summary",
+    "evaluation_readiness", "metric_statuses", "runs"
+  ],
+  "properties": {
+    "evaluation": {
+      "type": "object",
+      "required": ["evaluation_id", "evaluation_design", "configuration"],
+      "properties": {
+        "evaluation_id": {"type": "string", "minLength": 1},
+        "evaluation_design": {"type": "string", "minLength": 1},
+        "configuration": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "workflow_family": {"type": "string", "minLength": 1},
+    "workflow_definition_id": {"type": "string", "minLength": 1},
+    "run_count": {"type": "integer", "minimum": 0},
+    "measurement_window_summary": {"type": "object"},
+    "observed_summary": {"type": "object"},
+    "assumption_based_summary": {"type": "object"},
+    "comparator_summary": {"type": "object"},
+    "telemetry_validation": {"type": "object", "required": ["passed"]},
+    "missing_telemetry_summary": {"type": "object"},
+    "evaluation_readiness": {"type": "object", "required": ["attained_tier"]},
+    "metric_statuses": {"type": "object"},
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["run_id", "observed_metrics", "assumption_based_estimates", "missing_telemetry", "evidence"],
+        "properties": {
+          "run_id": {"type": "string", "minLength": 1},
+          "observed_metrics": {"type": "object"},
+          "assumption_based_estimates": {"type": "object"},
+          "missing_telemetry": {"type": "array", "items": {"type": "string"}},
+          "evidence": {"type": "object"}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

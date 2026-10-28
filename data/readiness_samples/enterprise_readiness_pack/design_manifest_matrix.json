@@ -1,0 +1,30 @@
+{
+  "base_manifest": "manifest_comparator.json",
+  "designs": [
+    {
+      "evaluation_design": "monitoring",
+      "design_claim_ceiling": "descriptive",
+      "attained_claim_strength": "conformance_readiness"
+    },
+    {
+      "evaluation_design": "scenario_suite",
+      "design_claim_ceiling": "conformance",
+      "attained_claim_strength": "conformance_readiness"
+    },
+    {
+      "evaluation_design": "ab_test",
+      "design_claim_ceiling": "causal_if_valid",
+      "attained_claim_strength": "conformance_readiness"
+    },
+    {
+      "evaluation_design": "staged_rollout",
+      "design_claim_ceiling": "causal_if_valid",
+      "attained_claim_strength": "conformance_readiness"
+    },
+    {
+      "evaluation_design": "before_after",
+      "design_claim_ceiling": "associational",
+      "attained_claim_strength": "conformance_readiness"
+    }
+  ]
+}

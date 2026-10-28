@@ -1,0 +1,69 @@
+{
+  "evaluation_id": "thesis-readiness-unsupported-telemetry",
+  "evaluation_design": "monitoring",
+  "measurement_window": {
+    "start": "2026-04-06T00:00:00Z",
+    "end": "2026-04-07T00:00:00Z",
+    "timezone": "UTC"
+  },
+  "baseline": {
+    "name": "not_applicable",
+    "type": "monitoring_reference",
+    "definition": "No causal baseline is used."
+  },
+  "comparator": {
+    "name": "unobserved_telemetry_agent",
+    "type": "agent_configuration",
+    "definition": "A run whose workflow declares no optional telemetry capabilities."
+  },
+  "assumptions": {},
+  "telemetry_requirements": {
+    "required": [
+      "run_id",
+      "timestamp",
+      "duration",
+      "workflow_definition_id",
+      "trace_id",
+      "event_type",
+      "status",
+      "step_name",
+      "agent_configuration_id",
+      "agent_version",
+      "configuration_hash"
+    ],
+    "optional": [
+      "retry_markers",
+      "intervention_markers",
+      "handoff_targets",
+      "routing_decisions",
+      "tool_call_trace",
+      "input_tokens",
+      "output_tokens",
+      "observed_cost_usd",
+      "quality_score"
+    ]
+  },
+  "configuration": {
+    "agent_configuration_id": "unsupported-agent.v1",
+    "agent_version": "2026-04-01",
+    "configuration_hash": "sha256:unsupported-agent-v1"
+  },
+  "taxonomy": {
+    "deployment_mode": "synthetic_test",
+    "workflow_integration": "offline_harness",
+    "autonomy_level": "bounded_autonomy",
+    "hitl_pattern": "unknown",
+    "statefulness": "workflow_stateful",
+    "memory_strategy": "trace_only",
+    "composition": "single_agent",
+    "decomposition_strategy": "fixed_steps",
+    "allocation_mechanism": "static_assignment",
+    "routing_strategy": "unknown",
+    "protocol_surfaces": ["synthetic_jsonl"]
+  },
+  "inclusion_rules": ["Include the hand-authored unsupported-telemetry run."],
+  "exclusion_rules": [],
+  "run_exclusions": [],
+  "interpretation_boundaries": ["Unsupported signals must remain null and carry denominators."],
+  "concurrent_changes": []
+}

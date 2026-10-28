@@ -1,0 +1,10 @@
+{
+  "source_profile_schema_version": "1.0.0",
+  "logical_source_id": "TODO_LOGICAL_SOURCE_ID",
+  "source_kind": "enterprise_operational",
+  "file_count": 1,
+  "record_count": 0,
+  "formats": ["jsonl"],
+  "field_inventory": [],
+  "manual_review_record_count": 0
+}

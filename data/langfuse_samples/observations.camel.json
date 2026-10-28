@@ -1,0 +1,38 @@
+[
+  {
+    "id": "synthetic-observation-1",
+    "traceId": "synthetic-trace-1",
+    "startTime": "2026-07-01T10:00:00Z",
+    "endTime": "2026-07-01T10:03:00Z",
+    "type": "GENERATION",
+    "name": "resolve-ticket",
+    "traceName": "synthetic-support-resolution",
+    "environment": "test",
+    "metadata": {
+      "business_status": "done",
+      "configuration": {
+        "id": "synthetic-support-agent.v1",
+        "version": "2026-07-01",
+        "hash": "sha256:synthetic-configuration-v1"
+      },
+      "retry": false,
+      "intervention": false,
+      "handoff": null,
+      "routing": "standard",
+      "quality": 0.91
+    },
+    "input": "SYNTHETIC PRIVATE INPUT LEAKAGE SENTINEL",
+    "output": "SYNTHETIC PRIVATE OUTPUT LEAKAGE SENTINEL",
+    "providedModelName": "synthetic-model",
+    "promptVersion": 1,
+    "usageDetails": {
+      "input": 700,
+      "output": 140,
+      "total": 840
+    },
+    "totalCost": 0.03,
+    "toolCallNames": [
+      "synthetic_lookup"
+    ]
+  }
+]

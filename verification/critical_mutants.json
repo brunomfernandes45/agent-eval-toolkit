@@ -1,0 +1,174 @@
+{
+  "mutation_schema_version": "1.0",
+  "policy": "Each mutant is a predeclared, non-equivalent change to one thesis-critical rule. A mutant is killed only when its targeted black-box test command returns nonzero while the same command passes against the unmodified source.",
+  "mutants": [
+    {
+      "id": "MUT-ECO-FAILED-BENEFIT",
+      "rule": "Failed runs cannot receive benefit even when a success marker is present.",
+      "file": "src/agent_eval_toolkit/metrics.py",
+      "search": "if run.status != \"completed\":",
+      "replacement": "if run.status not in {\"completed\", \"failed\"}:",
+      "tests": ["tests.test_metrics.MetricsTest.test_failed_run_with_success_marker_still_receives_zero_benefit"]
+    },
+    {
+      "id": "MUT-MISSINGNESS-PARTIAL-AS-TOTAL",
+      "rule": "Population token totals are withheld under incomplete run coverage.",
+      "file": "src/agent_eval_toolkit/metrics.py",
+      "search": "if len(inputs) == denominator:\n        total_input_tokens = sum(inputs)",
+      "replacement": "if inputs:\n        total_input_tokens = sum(inputs)",
+      "tests": ["tests.test_metrics.MetricsTest.test_population_totals_are_withheld_under_partial_coverage"]
+    },
+    {
+      "id": "MUT-BOUNDARY-TERMINAL-LAST",
+      "rule": "The terminal boundary must be last under timestamp and source-sequence ordering.",
+      "file": "src/agent_eval_toolkit/reconstruct.py",
+      "search": "if ordered_events[-1] is not terminal_event:",
+      "replacement": "if False:",
+      "tests": ["tests.test_reconstruct.ReconstructTest.test_equal_timestamp_terminal_must_be_last_in_source_order"]
+    },
+    {
+      "id": "MUT-TERMINAL-SEMANTICS",
+      "rule": "Run status is derived from the terminal event semantics.",
+      "file": "src/agent_eval_toolkit/reconstruct.py",
+      "search": "if terminal_event.event_type == boundaries[\"completed_event_type\"]:\n            status = \"completed\"\n        else:\n            status = \"failed\"",
+      "replacement": "if terminal_event.event_type == boundaries[\"completed_event_type\"]:\n            status = \"failed\"\n        else:\n            status = \"completed\"",
+      "tests": ["tests.test_reconstruct.ReconstructTest.test_terminal_event_semantics_override_raw_status"]
+    },
+    {
+      "id": "MUT-DEDUPLICATION-TOOL-CALL",
+      "rule": "Repeated observations of one tool-call identifier count once.",
+      "file": "src/agent_eval_toolkit/reconstruct.py",
+      "search": "call_key = event.tool_call_id or f\"event::{event.event_id}\"",
+      "replacement": "call_key = event.event_id",
+      "tests": ["tests.test_reconstruct.ReconstructTest.test_tool_calls_and_retries_are_deduplicated"]
+    },
+    {
+      "id": "MUT-CONFIGURATION-MATCHING",
+      "rule": "Observed configuration tuples must belong to the manifest-declared matrix.",
+      "file": "src/agent_eval_toolkit/validation.py",
+      "search": "if expected_by_identity and identity not in expected_by_identity:",
+      "replacement": "if False:",
+      "tests": ["tests.test_validation.ValidationTest.test_expected_configuration_matrix_rejects_unexpected_and_missing_groups"]
+    },
+    {
+      "id": "MUT-REDACTION-PLAINTEXT",
+      "rule": "Restricted captured fields retain a mask instead of plaintext.",
+      "file": "src/agent_eval_toolkit/normalize.py",
+      "search": "captured[key] = REDACTED_VALUE",
+      "replacement": "captured[key] = payload.get(key)",
+      "tests": ["tests.test_cli.CliTest.test_captured_output_is_included_in_restricted_canary_scan", "tests.test_normalize.NormalizeTest.test_normalize_logs_maps_fields_and_evidence"]
+    },
+    {
+      "id": "MUT-TIER-QUARANTINE-PARTIAL",
+      "rule": "A quarantined source run prevents a complete evidence tier even when retained-run telemetry is complete.",
+      "file": "src/agent_eval_toolkit/readiness.py",
+      "search": "elif telemetry_validation.get(\"passed\") is True and quarantined_run_count == 0:",
+      "replacement": "elif telemetry_validation.get(\"passed\") is True:",
+      "tests": ["tests.test_readiness.EvaluationReadinessTest.test_quarantine_changes_population_denominator_without_becoming_zero"]
+    },
+    {
+      "id": "MUT-TIER-MAPPING-ONLY-GATE",
+      "rule": "Required but unverified mapping evidence caps publication at mapping-only.",
+      "file": "src/agent_eval_toolkit/readiness.py",
+      "search": "elif mapping_required and mapping_readiness != \"verified\":",
+      "replacement": "elif False:",
+      "tests": ["tests.test_tiered_pipeline.TieredPipelineTest.test_missing_mapping_assessment_publishes_mapping_only_without_scorecard"]
+    },
+    {
+      "id": "MUT-BLOCKER-MAPPING-PRIVACY",
+      "rule": "Missing mapping privacy approval is a bundle-wide governance blocker rather than a degraded analytical mode.",
+      "file": "src/agent_eval_toolkit/readiness.py",
+      "search": "and mapping_assessment.get(\"approvals\", {}).get(\"privacy_approval\") != \"approved\"",
+      "replacement": "and False",
+      "tests": ["tests.test_mapping.MappingAssessmentTest.test_unapproved_mapping_privacy_is_a_bundle_blocker", "tests.test_tiered_pipeline.TieredPipelineTest.test_unapproved_mapping_privacy_publishes_only_blocked_readiness"]
+    },
+    {
+      "id": "MUT-QUARANTINE-LOCAL-FAILURE",
+      "rule": "Once identities are trustworthy, a local reconstruction failure quarantines only the affected run.",
+      "file": "src/agent_eval_toolkit/reconstruct.py",
+      "search": "except DataValidationError as exc:",
+      "replacement": "except KeyError as exc:",
+      "tests": ["tests.test_tiered_pipeline.TieredPipelineTest.test_one_boundary_anomaly_is_quarantined_and_partial_package_verifies"]
+    },
+    {
+      "id": "MUT-COMPARATOR-QUARANTINE-WITHHOLD",
+      "rule": "Comparator outputs are withheld when any source run is quarantined.",
+      "file": "src/agent_eval_toolkit/readiness.py",
+      "search": "passed = consistency.get(\"passed\") is True and quarantined_run_count == 0",
+      "replacement": "passed = consistency.get(\"passed\") is True",
+      "tests": ["tests.test_readiness.EvaluationReadinessTest.test_quarantine_changes_population_denominator_without_becoming_zero"]
+    },
+    {
+      "id": "MUT-MAPPING-SIGNAL-APPROVAL",
+      "rule": "Confirmed semantics still require explicit signal-level approval.",
+      "file": "src/agent_eval_toolkit/mapping.py",
+      "search": "and mapping[\"approval\"][\"status\"] == \"approved\"",
+      "replacement": "and True",
+      "tests": ["tests.test_mapping.MappingAssessmentTest.test_confirmed_semantics_without_signal_approval_remain_provisional"]
+    },
+    {
+      "id": "MUT-MAPPING-EFFORT-MISSINGNESS",
+      "rule": "Incomplete activity effort is reported as a partial observed sum and is never promoted to a complete total.",
+      "file": "src/agent_eval_toolkit/mapping.py",
+      "search": "round(sum(efforts), 3) if effort_status == \"complete\" else None",
+      "replacement": "round(sum(efforts), 3) if efforts else None",
+      "tests": ["tests.test_mapping.MappingAssessmentTest.test_partial_activity_effort_is_observed_only_and_denominated"]
+    },
+    {
+      "id": "MUT-LANGFUSE-PAGINATION",
+      "rule": "A non-null API cursor proves the capture is incomplete and must be rejected.",
+      "file": "src/agent_eval_toolkit/langfuse.py",
+      "search": "if cursor_name in meta and meta[cursor_name] is not None:",
+      "replacement": "if False:",
+      "tests": ["tests.test_langfuse.LangfusePreparationTest.test_non_null_api_cursor_is_rejected_without_outputs"]
+    },
+    {
+      "id": "MUT-LANGFUSE-RAW-BODY-HASH",
+      "rule": "Strict Langfuse body evidence omits raw value SHA-256 hashes.",
+      "file": "src/agent_eval_toolkit/langfuse.py",
+      "search": "\"length\": len(text),\n    }",
+      "replacement": "\"length\": len(text),\n        \"sha256\": hashlib.sha256(text.encode(\"utf-8\")).hexdigest(),\n    }",
+      "tests": ["tests.test_langfuse.LangfusePreparationTest.test_api_capture_is_normalized_once_and_input_output_are_masked"]
+    },
+    {
+      "id": "MUT-PACKAGE-ARTIFACT-HASH",
+      "rule": "Package verification fails when a retained artifact is modified.",
+      "file": "src/agent_eval_toolkit/package.py",
+      "search": "\"artifact_hashes\": artifact_check,",
+      "replacement": "\"artifact_hashes\": {\"passed\": True},",
+      "tests": ["tests.test_cli.CliTest.test_verify_package_detects_artifact_tampering"]
+    },
+    {
+      "id": "MUT-PACKAGE-BUNDLE-HASH",
+      "rule": "Package verification fails when the bundle digest is edited.",
+      "file": "src/agent_eval_toolkit/package.py",
+      "search": "bundle_passed = isinstance(expected_bundle, str) and expected_bundle == actual_bundle",
+      "replacement": "bundle_passed = True",
+      "tests": ["tests.test_package.EvaluationPackageTest.test_verifier_rejects_edited_package_bundle_hash"]
+    },
+    {
+      "id": "MUT-CANARY-FILE-SCAN",
+      "rule": "Restricted canaries are detected in every derived file as well as captured output.",
+      "file": "src/agent_eval_toolkit/traceability.py",
+      "search": "if any(encoded in file_content for encoded in _canary_encodings(value)):",
+      "replacement": "if False:",
+      "tests": ["tests.test_traceability.TraceabilityTest.test_restricted_canary_scan_covers_files_and_captured_output"]
+    },
+    {
+      "id": "MUT-SYNTHETIC-CLAIM-CAP",
+      "rule": "Synthetic evidence is capped at conformance/readiness regardless of design template.",
+      "file": "src/agent_eval_toolkit/metrics.py",
+      "search": "elif synthetic:\n        attained = \"conformance_readiness\"",
+      "replacement": "elif synthetic:\n        attained = ceiling",
+      "tests": ["tests.test_metrics.MetricsTest.test_build_scorecard_reports_comparator_deltas_and_percentiles"]
+    },
+    {
+      "id": "MUT-AGGREGATION-SEMANTICS",
+      "rule": "Mapped token and cost fields require per-event-increment semantics.",
+      "file": "src/agent_eval_toolkit/reconstruct.py",
+      "search": "if semantic != \"per_event_increment\":",
+      "replacement": "if False:",
+      "tests": ["tests.test_reconstruct.ReconstructTest.test_reconstruct_rejects_cumulative_aggregation_semantics"]
+    }
+  ]
+}

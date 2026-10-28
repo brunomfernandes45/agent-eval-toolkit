@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-eval-toolkit.local/schemas/canonical_event.schema.json",
+  "title": "Canonical Workflow Event",
+  "type": "object",
+  "required": ["event_id", "timestamp", "status"],
+  "properties": {
+    "event_id": {"type": ["string", "integer"], "minLength": 1},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "event_type": {"type": "string", "minLength": 1},
+    "event_name": {"type": "string", "minLength": 1},
+    "run_id": {"type": ["string", "integer"]},
+    "workflow_run_id": {"type": ["string", "integer"]},
+    "trace_id": {"type": ["string", "integer", "null"]},
+    "workflow_definition_id": {"type": ["string", "null"]},
+    "status": {"type": ["string", "null"]},
+    "step_name": {"type": ["string", "null"]},
+    "attempt": {"type": ["integer", "null"], "minimum": 0},
+    "input_tokens": {"type": ["integer", "null"], "minimum": 0},
+    "output_tokens": {"type": ["integer", "null"], "minimum": 0},
+    "observed_cost_usd": {"type": ["number", "null"], "minimum": 0},
+    "quality_score": {"type": ["number", "null"], "minimum": 0},
+    "business_success": {"type": ["boolean", "null"]},
+    "human_effort_seconds": {"type": ["number", "null"], "minimum": 0}
+  },
+  "allOf": [
+    {"anyOf": [{"required": ["event_type"]}, {"required": ["event_name"]}]},
+    {"anyOf": [{"required": ["run_id"]}, {"required": ["workflow_run_id"]}]}
+  ],
+  "additionalProperties": true
+}

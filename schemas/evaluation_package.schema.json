@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-eval-toolkit.local/schemas/evaluation_package.schema.json",
+  "title": "Agent Evaluation Integrity Package",
+  "type": "object",
+  "required": [
+    "artifact_schema_version", "toolkit_version", "python_version", "dependency_lock",
+    "evaluation_id", "evaluation_design", "workflow_family", "workflow_definition_id",
+    "input_fingerprints", "artifact_fingerprints", "schema_fingerprints", "integrity",
+    "bundle_sha256", "configuration", "telemetry_validation", "redaction_report",
+    "evaluation_readiness", "metric_statuses", "evidence"
+  ],
+  "properties": {
+    "artifact_schema_version": {"type": "string", "minLength": 1},
+    "toolkit_version": {"type": "string", "minLength": 1},
+    "python_version": {"type": "string", "minLength": 1},
+    "evaluation_id": {"type": "string", "minLength": 1},
+    "evaluation_design": {"type": "string", "minLength": 1},
+    "workflow_family": {"type": "string", "minLength": 1},
+    "workflow_definition_id": {"type": "string", "minLength": 1},
+    "dependency_lock": {"type": "object", "required": ["path"]},
+    "input_fingerprints": {
+      "type": "object",
+      "required": ["workflow_config", "raw_logs", "evaluation_manifest"],
+      "additionalProperties": {"$ref": "#/$defs/fingerprint"}
+    },
+    "artifact_fingerprints": {"$ref": "#/$defs/fingerprintArray"},
+    "schema_fingerprints": {"$ref": "#/$defs/fingerprintArray"},
+    "integrity": {
+      "type": "object",
+      "required": ["hash_algorithm", "event_hash_canonicalization", "raw_line_hash_scope", "bundle_hash_scope"],
+      "properties": {
+        "hash_algorithm": {"const": "sha256"},
+        "event_hash_canonicalization": {"type": "string"},
+        "raw_line_hash_scope": {"type": "string"},
+        "bundle_hash_scope": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "bundle_sha256": {"$ref": "#/$defs/sha256"},
+    "configuration": {"type": "object"},
+    "telemetry_validation": {"type": "object"},
+    "redaction_report": {"type": "object"},
+    "evaluation_readiness": {"type": "object", "required": ["attained_tier"]},
+    "metric_statuses": {"type": "object"},
+    "evidence": {"type": "object"},
+    "warnings": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "fingerprint": {
+      "type": "object",
+      "required": ["path", "sha256", "size_bytes"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "fingerprintArray": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/fingerprint"}
+    }
+  },
+  "additionalProperties": true
+}

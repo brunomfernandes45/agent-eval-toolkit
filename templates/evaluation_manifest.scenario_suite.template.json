@@ -1,0 +1,85 @@
+{
+  "evaluation_id": "TODO_SCENARIO_SUITE_ID",
+  "evaluation_design": "scenario_suite",
+  "evidence_context": {
+    "source_kind": "benchmark",
+    "mapping_assessment_required": false
+  },
+  "publication_policy": {
+    "minimum_evidence_tier": "partial"
+  },
+  "measurement_window": {
+    "start": "2026-01-01T00:00:00Z",
+    "end": "2026-01-02T00:00:00Z",
+    "timezone": "UTC"
+  },
+  "baseline": {
+    "name": "reference_configuration",
+    "type": "scenario_reference",
+    "definition": "Reference agent or manual scenario outcome.",
+    "agent_configuration_id": "reference-agent.v1"
+  },
+  "comparator": {
+    "name": "candidate_configuration",
+    "type": "scenario_candidate",
+    "definition": "Candidate configuration evaluated on the same scenario suite.",
+    "agent_configuration_id": "candidate-agent.v1"
+  },
+  "assumptions": {
+    "manual_baseline_cycle_time_seconds": 0,
+    "manual_baseline_human_effort_seconds": 0,
+    "loaded_labor_rate_usd_per_hour": 0
+  },
+  "telemetry_requirements": {
+    "required": [
+      "run_id",
+      "timestamp",
+      "workflow_definition_id",
+      "trace_id",
+      "event_type",
+      "status",
+      "step_name",
+      "agent_configuration_id",
+      "agent_version",
+      "configuration_hash"
+    ],
+    "optional": [
+      "business_success",
+      "human_effort_seconds",
+      "input_tokens",
+      "output_tokens",
+      "observed_cost_usd",
+      "quality_score",
+      "failure_mode"
+    ]
+  },
+  "configuration": {
+    "agent_configuration_id": "candidate-agent.v1",
+    "agent_version": "TODO_AGENT_VERSION",
+    "configuration_hash": "TODO_CONFIGURATION_HASH"
+  },
+  "taxonomy": {
+    "deployment_mode": "embedded_automation",
+    "workflow_integration": "scenario_suite",
+    "autonomy_level": "bounded_autonomy",
+    "hitl_pattern": "scenario_review",
+    "statefulness": "workflow_stateful",
+    "memory_strategy": "scenario_trace_only",
+    "composition": "single_agent_with_tools",
+    "decomposition_strategy": "scenario_defined_steps",
+    "allocation_mechanism": "static_assignment",
+    "routing_strategy": "scenario_defined_routing",
+    "protocol_surfaces": []
+  },
+  "inclusion_rules": [
+    "Include only approved scenario-suite runs."
+  ],
+  "exclusion_rules": [
+    "Exclude exploratory or manually modified runs."
+  ],
+  "run_exclusions": [],
+  "interpretation_boundaries": [
+    "Scenario-suite validation demonstrates framework readiness and does not replace enterprise impact evidence."
+  ],
+  "concurrent_changes": []
+}

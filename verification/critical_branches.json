@@ -1,0 +1,201 @@
+{
+  "critical_branch_schema_version": "2.0",
+  "coverage_format": "coverage.py JSON with branch=true",
+  "policy": "Every declared outgoing arc at each thesis-critical decision must be executed. Every predeclared critical mutant must be represented by at least one decision. The decisions cover the hybrid safety floor, evidence tiers, quarantine, per-metric withholding, mapping governance, missingness, reconstruction, privacy, claims, and package integrity.",
+  "thresholds": {
+    "minimum_statement_percent": 90.0,
+    "minimum_branch_percent": 85.0,
+    "critical_decision_branch_percent": 100.0
+  },
+  "decisions": [
+    {
+      "id": "CB-ECO-FAILED-BENEFIT",
+      "mutant_ids": ["MUT-ECO-FAILED-BENEFIT"],
+      "file": "src/agent_eval_toolkit/metrics.py",
+      "decision_line": 133,
+      "anchor": "if run.status != \"completed\":",
+      "rationale": "Failed and completed benefit paths must both execute.",
+      "expected_arcs": [{"from": 133, "to": 134, "outcome": "failed run rejected"}, {"from": 133, "to": 136, "outcome": "completed run evaluated"}]
+    },
+    {
+      "id": "CB-MISSINGNESS-POPULATION-TOTAL",
+      "mutant_ids": ["MUT-MISSINGNESS-PARTIAL-AS-TOTAL"],
+      "file": "src/agent_eval_toolkit/metrics.py",
+      "decision_line": 710,
+      "anchor": "if len(inputs) == denominator:",
+      "rationale": "Complete and incomplete token coverage must respectively publish and withhold a population total.",
+      "expected_arcs": [{"from": 710, "to": 711, "outcome": "complete total"}, {"from": 710, "to": 713, "outcome": "total withheld"}]
+    },
+    {
+      "id": "CB-BOUNDARY-TERMINAL-LAST",
+      "mutant_ids": ["MUT-BOUNDARY-TERMINAL-LAST"],
+      "file": "src/agent_eval_toolkit/reconstruct.py",
+      "decision_line": 461,
+      "anchor": "if ordered_events[-1] is not terminal_event:",
+      "rationale": "Terminal-last acceptance and post-terminal rejection must both execute.",
+      "expected_arcs": [{"from": 461, "to": 462, "outcome": "terminal not last"}, {"from": 461, "to": 470, "outcome": "terminal accepted"}]
+    },
+    {
+      "id": "CB-TERMINAL-SEMANTICS",
+      "mutant_ids": ["MUT-TERMINAL-SEMANTICS"],
+      "file": "src/agent_eval_toolkit/reconstruct.py",
+      "decision_line": 157,
+      "anchor": "if terminal_event.event_type == boundaries[\"completed_event_type\"]:",
+      "rationale": "Completed and failed terminal semantics must both execute.",
+      "expected_arcs": [{"from": 157, "to": 158, "outcome": "completed"}, {"from": 157, "to": 160, "outcome": "failed"}]
+    },
+    {
+      "id": "CB-DEDUPLICATION-TOOL-CALL",
+      "mutant_ids": ["MUT-DEDUPLICATION-TOOL-CALL"],
+      "file": "src/agent_eval_toolkit/reconstruct.py",
+      "decision_line": 491,
+      "anchor": "if call_key not in call_keys:",
+      "rationale": "New and repeated tool-call observations must both execute.",
+      "expected_arcs": [{"from": 491, "to": 487, "outcome": "duplicate skipped"}, {"from": 491, "to": 492, "outcome": "new call added"}]
+    },
+    {
+      "id": "CB-CONFIGURATION-MATCHING",
+      "mutant_ids": ["MUT-CONFIGURATION-MATCHING"],
+      "file": "src/agent_eval_toolkit/validation.py",
+      "decision_line": 1285,
+      "anchor": "if expected_by_identity and identity not in expected_by_identity:",
+      "rationale": "Declared configuration identities must be accepted and unexpected identities rejected.",
+      "expected_arcs": [{"from": 1285, "to": 1286, "outcome": "unexpected identity"}, {"from": 1285, "to": 1287, "outcome": "declared identity"}]
+    },
+    {
+      "id": "CB-REDACTION-PLAINTEXT",
+      "mutant_ids": ["MUT-REDACTION-PLAINTEXT"],
+      "file": "src/agent_eval_toolkit/normalize.py",
+      "decision_line": 45,
+      "anchor": "if key in redacted_fields and payload.get(key) not in (None, \"\"):",
+      "rationale": "Restricted values must take the mask path while safe or absent fields take the ordinary path.",
+      "expected_arcs": [{"from": 45, "to": 46, "outcome": "masked"}, {"from": 45, "to": 49, "outcome": "ordinary capture"}]
+    },
+    {
+      "id": "CB-TIER-QUARANTINE-PARTIAL",
+      "mutant_ids": ["MUT-TIER-QUARANTINE-PARTIAL"],
+      "file": "src/agent_eval_toolkit/readiness.py",
+      "decision_line": 86,
+      "anchor": "elif telemetry_validation.get(\"passed\") is True and quarantined_run_count == 0:",
+      "rationale": "Only complete telemetry with no quarantine can attain the complete tier.",
+      "expected_arcs": [{"from": 86, "to": 87, "outcome": "complete"}, {"from": 86, "to": 90, "outcome": "partial"}]
+    },
+    {
+      "id": "CB-TIER-MAPPING-ONLY",
+      "mutant_ids": ["MUT-TIER-MAPPING-ONLY-GATE"],
+      "file": "src/agent_eval_toolkit/readiness.py",
+      "decision_line": 80,
+      "anchor": "elif mapping_required and mapping_readiness != \"verified\":",
+      "rationale": "Required unverified mapping evidence must cap publication at mapping-only while verified or inapplicable mapping may proceed.",
+      "expected_arcs": [{"from": 80, "to": 81, "outcome": "mapping-only"}, {"from": 80, "to": 83, "outcome": "analytical assessment continues"}]
+    },
+    {
+      "id": "CB-BLOCKER-MAPPING-PRIVACY",
+      "mutant_ids": ["MUT-BLOCKER-MAPPING-PRIVACY"],
+      "file": "src/agent_eval_toolkit/readiness.py",
+      "decision_line": 77,
+      "anchor": "if not governance_safe or not mapping_governance_safe:",
+      "rationale": "Governance failure must block the bundle while safe evidence proceeds to readiness classification.",
+      "expected_arcs": [{"from": 77, "to": 78, "outcome": "blocked"}, {"from": 77, "to": 80, "outcome": "safe classification"}]
+    },
+    {
+      "id": "CB-QUARANTINE-LOCAL-FAILURE",
+      "mutant_ids": ["MUT-QUARANTINE-LOCAL-FAILURE"],
+      "file": "src/agent_eval_toolkit/reconstruct.py",
+      "decision_line": 274,
+      "anchor": "for run_id, run_events in sorted(grouped.items()):",
+      "rationale": "The run-local reconstruction loop must process both valid and quarantined run groups without losing trustworthy groups.",
+      "expected_arcs": [{"from": 274, "to": 275, "outcome": "process group"}, {"from": 274, "to": 289, "outcome": "all groups processed"}]
+    },
+    {
+      "id": "CB-COMPARATOR-QUARANTINE-WITHHOLD",
+      "mutant_ids": ["MUT-COMPARATOR-QUARANTINE-WITHHOLD"],
+      "file": "src/agent_eval_toolkit/readiness.py",
+      "decision_line": 192,
+      "anchor": "if design in {\"ab_test\", \"before_after\", \"scenario_suite\", \"staged_rollout\"}:",
+      "rationale": "Comparator designs must enter an independent metric gate while monitoring designs omit it.",
+      "expected_arcs": [{"from": 192, "to": 193, "outcome": "comparator gated"}, {"from": 192, "to": 213, "outcome": "not applicable"}]
+    },
+    {
+      "id": "CB-MAPPING-SIGNAL-APPROVAL",
+      "mutant_ids": ["MUT-MAPPING-SIGNAL-APPROVAL"],
+      "file": "src/agent_eval_toolkit/mapping.py",
+      "decision_line": 518,
+      "anchor": "if required and configured and not confirmed:",
+      "rationale": "A required signal without confirmed and approved semantics must be diagnosed while approved mappings proceed.",
+      "expected_arcs": [{"from": 518, "to": 455, "outcome": "approved mapping continues"}, {"from": 518, "to": 519, "outcome": "unapproved semantics diagnosed"}]
+    },
+    {
+      "id": "CB-MAPPING-EFFORT-MISSINGNESS",
+      "mutant_ids": ["MUT-MAPPING-EFFORT-MISSINGNESS"],
+      "file": "src/agent_eval_toolkit/mapping.py",
+      "decision_line": 89,
+      "anchor": "if friction[\"active_effort\"][\"measurement_status\"] == \"partial\":",
+      "rationale": "Partial activity effort must produce an explicit warning while complete or absent logs retain their own status.",
+      "expected_arcs": [{"from": 89, "to": 90, "outcome": "partial warning"}, {"from": 89, "to": 108, "outcome": "not partial"}]
+    },
+    {
+      "id": "CB-LANGFUSE-PAGINATION",
+      "mutant_ids": ["MUT-LANGFUSE-PAGINATION"],
+      "file": "src/agent_eval_toolkit/langfuse.py",
+      "decision_line": 487,
+      "anchor": "if cursor_name in meta and meta[cursor_name] is not None:",
+      "rationale": "Non-null cursors must block incomplete captures while absent or null cursors continue.",
+      "expected_arcs": [{"from": 487, "to": 486, "outcome": "cursor scan continues"}, {"from": 487, "to": 488, "outcome": "capture rejected"}]
+    },
+    {
+      "id": "CB-LANGFUSE-BODY-EVIDENCE",
+      "mutant_ids": ["MUT-LANGFUSE-RAW-BODY-HASH"],
+      "file": "src/agent_eval_toolkit/langfuse.py",
+      "decision_line": 877,
+      "anchor": "if body_evidence[\"mode\"] == \"hmac_sha256\":",
+      "rationale": "Strict digest-free omission and explicitly keyed HMAC evidence must both execute.",
+      "expected_arcs": [{"from": 877, "to": 878, "outcome": "keyed HMAC"}, {"from": 877, "to": 882, "outcome": "strict omission"}]
+    },
+    {
+      "id": "CB-PACKAGE-ARTIFACT-HASH",
+      "mutant_ids": ["MUT-PACKAGE-ARTIFACT-HASH"],
+      "file": "src/agent_eval_toolkit/package.py",
+      "decision_line": 324,
+      "anchor": "if not _fingerprint_matches(expected, actual):",
+      "rationale": "Matching and tampered retained artefacts must both execute.",
+      "expected_arcs": [{"from": 324, "to": 301, "outcome": "match advances"}, {"from": 324, "to": 325, "outcome": "mismatch recorded"}]
+    },
+    {
+      "id": "CB-PACKAGE-BUNDLE-HASH",
+      "mutant_ids": ["MUT-PACKAGE-BUNDLE-HASH"],
+      "file": "src/agent_eval_toolkit/package.py",
+      "decision_line": 208,
+      "anchor": "if not bundle_passed:",
+      "rationale": "Matching and edited bundle digests must both execute.",
+      "expected_arcs": [{"from": 208, "to": 209, "outcome": "mismatch diagnosed"}, {"from": 208, "to": 215, "outcome": "match accepted"}]
+    },
+    {
+      "id": "CB-CANARY-FILE-SCAN",
+      "mutant_ids": ["MUT-CANARY-FILE-SCAN"],
+      "file": "src/agent_eval_toolkit/traceability.py",
+      "decision_line": 148,
+      "anchor": "if any(encoded in file_content for encoded in _canary_encodings(value)):",
+      "rationale": "Canary matches and clean files must both execute in the bundle scanner.",
+      "expected_arcs": [{"from": 148, "to": 147, "outcome": "clean comparison"}, {"from": 148, "to": 149, "outcome": "match recorded"}]
+    },
+    {
+      "id": "CB-SYNTHETIC-CLAIM-CAP",
+      "mutant_ids": ["MUT-SYNTHETIC-CLAIM-CAP"],
+      "file": "src/agent_eval_toolkit/metrics.py",
+      "decision_line": 248,
+      "anchor": "elif synthetic:",
+      "rationale": "Synthetic and benchmark evidence must take the conformance-readiness cap while naturalistic evidence follows its design-specific path.",
+      "expected_arcs": [{"from": 248, "to": 249, "outcome": "synthetic cap"}, {"from": 248, "to": 250, "outcome": "non-synthetic path"}]
+    },
+    {
+      "id": "CB-AGGREGATION-SEMANTICS",
+      "mutant_ids": ["MUT-AGGREGATION-SEMANTICS"],
+      "file": "src/agent_eval_toolkit/reconstruct.py",
+      "decision_line": 342,
+      "anchor": "if semantic != \"per_event_increment\":",
+      "rationale": "Per-event increments must be accepted and unsafe aggregation semantics rejected bundle-wide.",
+      "expected_arcs": [{"from": 342, "to": 343, "outcome": "unsupported semantic"}, {"from": 342, "to": 347, "outcome": "increment accepted"}]
+    }
+  ]
+}

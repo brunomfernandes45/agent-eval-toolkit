@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-eval-toolkit.local/schemas/package_verification.schema.json",
+  "title": "Evaluation Package Verification Result",
+  "type": "object",
+  "required": ["verification_schema_version", "passed", "package", "checks", "diagnostic_count", "diagnostics"],
+  "properties": {
+    "verification_schema_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "passed": {"type": "boolean"},
+    "package": {"type": "string", "minLength": 1},
+    "checks": {
+      "type": "object",
+      "required": ["input_hashes", "event_hashes", "raw_line_hashes", "schema_hashes", "artifact_hashes", "bundle_hash"],
+      "additionalProperties": {
+        "type": "object",
+        "required": ["passed"],
+        "properties": {"passed": {"type": "boolean"}},
+        "additionalProperties": true
+      }
+    },
+    "diagnostic_count": {"type": "integer", "minimum": 0},
+    "diagnostics": {"type": "array", "items": {"type": "object"}}
+  },
+  "additionalProperties": false
+}

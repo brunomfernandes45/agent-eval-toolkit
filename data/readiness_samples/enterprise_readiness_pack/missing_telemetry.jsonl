@@ -1,0 +1,2 @@
+{"event_id":"missing-001","timestamp":"2026-04-01T10:00:00Z","event_name":"workflow_started","workflow_run_id":"missing-run-001","trace_id":"missing-trace-001","step_name":"intake","status":"in_progress","attempt":1}
+{"event_id":"missing-002","timestamp":"2026-04-01T10:03:00Z","event_name":"workflow_completed","workflow_run_id":"missing-run-001","trace_id":"missing-trace-001","step_name":"resolution","status":"completed","attempt":1}

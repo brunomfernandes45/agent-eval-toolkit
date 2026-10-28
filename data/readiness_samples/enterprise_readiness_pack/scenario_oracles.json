@@ -1,0 +1,236 @@
+{
+  "oracle_schema_version": "1.0.0",
+  "float_tolerance": 0.001,
+  "positive_scenarios": {
+    "complete_telemetry": {
+      "workflow_config": "workflow_config.json",
+      "raw_logs": "complete_telemetry.jsonl",
+      "evaluation_manifest": "manifest_complete.json",
+      "expected": {
+        "event_count": 3,
+        "run_count": 1,
+        "status": "completed",
+        "duration_seconds": 180.0,
+        "input_tokens": 700,
+        "output_tokens": 140,
+        "tool_call_count": 1,
+        "avg_quality_score": 0.91
+      }
+    },
+    "pilot_metric_oracle": {
+      "workflow_config": "workflow_config.json",
+      "raw_logs": "pilot_telemetry.jsonl",
+      "evaluation_manifest": "manifest_pilot.json",
+      "expected": {
+        "run_count_total": 3,
+        "run_count_completed": 2,
+        "run_count_failed": 1,
+        "completion_rate": 0.667,
+        "failure_rate": 0.333,
+        "avg_duration_seconds": 76.667,
+        "p50_duration_seconds": 61.0,
+        "p90_duration_seconds": 114.6,
+        "avg_retry_count": 0.333,
+        "avg_intervention_count": 0.333,
+        "avg_tool_call_count": 1.667,
+        "avg_handoff_count": 0.333,
+        "avg_routing_decision_count": 1.0,
+        "avg_quality_score": 0.88,
+        "total_observed_cost_usd": 0.126,
+        "total_input_tokens": 8000,
+        "total_output_tokens": 1940,
+        "eligible_run_count": 2,
+        "ineligible_run_count": 1,
+        "avg_estimated_cycle_time_difference": 325.5,
+        "total_estimated_cycle_time_difference": 651.0,
+        "avg_estimated_human_effort_saved_seconds_vs_manual_baseline": 255.0,
+        "total_estimated_human_effort_saved_seconds_vs_manual_baseline": 510.0,
+        "avg_estimated_labor_value_delta_usd": 3.211,
+        "total_estimated_labor_value_delta_usd": 9.633,
+        "avg_estimated_net_value_delta_usd": 2.999,
+        "total_estimated_net_value_delta_usd": 8.997,
+        "failed_run_labor_value_delta_usd": 0.0,
+        "failed_run_net_value_delta_usd": -0.181,
+        "failed_run_id": "pilot-run-003"
+      }
+    },
+    "synthetic_comparator": {
+      "workflow_config": "workflow_config.json",
+      "raw_logs": "comparator_telemetry.jsonl",
+      "evaluation_manifest": "manifest_comparator.json",
+      "expected": {
+        "design_claim_ceiling": "conformance",
+        "attained_claim_strength": "conformance_readiness",
+        "control_duration_seconds": 300.0,
+        "control_quality_score": 0.84,
+        "control_input_tokens": 900.0,
+        "control_output_tokens": 180.0,
+        "treatment_duration_seconds": 180.0,
+        "treatment_quality_score": 0.9,
+        "treatment_input_tokens": 800.0,
+        "treatment_output_tokens": 160.0,
+        "duration_delta_seconds": -120.0,
+        "quality_delta": 0.06,
+        "input_tokens_delta": -100.0,
+        "output_tokens_delta": -20.0
+      }
+    },
+    "redaction": {
+      "workflow_config": "workflow_config.json",
+      "raw_logs": "redaction_telemetry.jsonl",
+      "evaluation_manifest": "manifest_redaction.json",
+      "expected": {
+        "restricted_field": "ticket_text",
+        "redacted_occurrences": 1,
+        "plaintext": "Restricted customer text that must not appear in derived outputs."
+      }
+    },
+    "window_exclusions": {
+      "workflow_config": "workflow_config.json",
+      "raw_logs": "window_exclusions.jsonl",
+      "evaluation_manifest": "manifest_window.json",
+      "expected": {
+        "included_run_ids": ["window-run-included"],
+        "excluded_runs": {
+          "window-run-explicit": "known_manual_test",
+          "window-run-outside": "outside_measurement_window"
+        },
+        "included_run_count": 1,
+        "excluded_run_count": 2,
+        "total_reconstructed_run_count": 3,
+        "run_coverage": 0.333,
+        "unmatched_run_exclusion_ids": ["window-run-not-found"]
+      }
+    },
+    "unsupported_signals": {
+      "workflow_config": "workflow_unsupported.json",
+      "raw_logs": "unsupported_telemetry.jsonl",
+      "evaluation_manifest": "manifest_unsupported.json",
+      "expected": {
+        "null_fields": [
+          "retry_count",
+          "intervention_count",
+          "tool_call_count",
+          "handoff_count",
+          "routing_decision_count",
+          "observed_cost_usd",
+          "input_tokens",
+          "output_tokens",
+          "avg_quality_score"
+        ],
+        "unsupported_signals": [
+          "handoff_targets",
+          "input_tokens",
+          "intervention_markers",
+          "observed_cost_usd",
+          "output_tokens",
+          "quality_score",
+          "retry_markers",
+          "routing_decisions",
+          "tool_call_trace"
+        ]
+      }
+    },
+    "deduplication": {
+      "workflow_config": "workflow_config.json",
+      "raw_logs": "deduplication_telemetry.jsonl",
+      "evaluation_manifest": "manifest_complete.json",
+      "expected": {
+        "tool_call_count": 1,
+        "retry_count": 1,
+        "input_tokens": 300,
+        "output_tokens": 60
+      }
+    }
+  },
+  "negative_scenarios": [
+    {
+      "name": "missing_telemetry",
+      "workflow_config": "workflow_config.json",
+      "raw_logs": "missing_telemetry.jsonl",
+      "evaluation_manifest": "manifest_complete.json",
+      "error_contains": "Minimum telemetry feasibility gate failed",
+      "diagnostic_code": "TELEMETRY_REQUIRED_SIGNAL_MISSING",
+      "missing_required_summary": {
+        "agent_configuration_id": 1,
+        "agent_version": 1,
+        "configuration_hash": 1,
+        "input_tokens": 1,
+        "output_tokens": 1,
+        "quality_score": 1
+      }
+    },
+    {
+      "name": "unsafe_policy",
+      "workflow_config": "workflow_unsafe.json",
+      "raw_logs": "redaction_telemetry.jsonl",
+      "evaluation_manifest": "manifest_complete.json",
+      "error_contains": "Restricted fields cannot be mapped",
+      "diagnostic_code": "PRIVACY_RESTRICTED_MAPPING"
+    },
+    {
+      "name": "duplicate_event_id",
+      "workflow_config": "workflow_config.json",
+      "raw_logs": "anomaly_duplicate_event_id.jsonl",
+      "evaluation_manifest": "manifest_complete.json",
+      "error_contains": "Canonical input validation failed",
+      "diagnostic_code": "CANONICAL_DUPLICATE_EVENT_ID"
+    },
+    {
+      "name": "missing_boundary",
+      "workflow_config": "workflow_config.json",
+      "raw_logs": "anomaly_missing_boundary.jsonl",
+      "evaluation_manifest": "manifest_complete.json",
+      "error_contains": "missing a terminal boundary",
+      "diagnostic_code": "BOUNDARY_MISSING_TERMINAL"
+    },
+    {
+      "name": "conflicting_boundaries",
+      "workflow_config": "workflow_config.json",
+      "raw_logs": "anomaly_conflicting_boundaries.jsonl",
+      "evaluation_manifest": "manifest_complete.json",
+      "error_contains": "conflicting completed and failed terminal boundaries",
+      "diagnostic_code": "BOUNDARY_CONFLICTING_TERMINAL"
+    },
+    {
+      "name": "post_terminal_event",
+      "workflow_config": "workflow_config.json",
+      "raw_logs": "anomaly_post_terminal.jsonl",
+      "evaluation_manifest": "manifest_complete.json",
+      "error_contains": "occurs after the terminal boundary",
+      "diagnostic_code": "BOUNDARY_POST_TERMINAL_EVENT"
+    },
+    {
+      "name": "configuration_drift",
+      "workflow_config": "workflow_config.json",
+      "raw_logs": "anomaly_configuration_drift.jsonl",
+      "evaluation_manifest": "manifest_comparator.json",
+      "error_contains": "configuration_drift",
+      "diagnostic_code": "CONFIGURATION_DRIFT"
+    },
+    {
+      "name": "negative_numeric_values",
+      "workflow_config": "workflow_config.json",
+      "raw_logs": "anomaly_negative_values.jsonl",
+      "evaluation_manifest": "manifest_complete.json",
+      "error_contains": "Canonical input validation failed",
+      "diagnostic_code": "CANONICAL_NEGATIVE_VALUE"
+    },
+    {
+      "name": "malformed_timestamp",
+      "workflow_config": "workflow_config.json",
+      "raw_logs": "anomaly_malformed_timestamp.jsonl",
+      "evaluation_manifest": "manifest_complete.json",
+      "error_contains": "Canonical input validation failed",
+      "diagnostic_code": "CANONICAL_INVALID_TIMESTAMP"
+    },
+    {
+      "name": "unsupported_event_type",
+      "workflow_config": "workflow_config.json",
+      "raw_logs": "anomaly_unsupported_event.jsonl",
+      "evaluation_manifest": "manifest_complete.json",
+      "error_contains": "Canonical input validation failed",
+      "diagnostic_code": "CANONICAL_UNSUPPORTED_EVENT_TYPE"
+    }
+  ]
+}

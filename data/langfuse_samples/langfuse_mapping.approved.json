@@ -1,0 +1,24 @@
+{
+  "workflow_family": "synthetic_support_resolution",
+  "workflow_definition_id": "synthetic-support-resolution.v1",
+  "metadata_paths": {
+    "status": "metadata.business_status",
+    "agent_configuration_id": "metadata.configuration.id",
+    "agent_version": "metadata.configuration.version",
+    "configuration_hash": "metadata.configuration.hash",
+    "retry": "metadata.retry",
+    "intervention": "metadata.intervention",
+    "handoff": "metadata.handoff",
+    "routing": "metadata.routing",
+    "quality": "metadata.quality"
+  },
+  "status_mapping": {
+    "approved": true,
+    "completed": [
+      "done"
+    ],
+    "failed": [
+      "failed"
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-eval-toolkit.local/schemas/mapping_friction.schema.json",
+  "title": "Mapping Friction Profile",
+  "type": "object",
+  "required": [
+    "mapping_friction_schema_version", "mapping_id", "mapping_readiness",
+    "required_signal_progress", "transformation_counts", "mapping_iteration_count",
+    "active_effort", "source_heterogeneity", "interpretation_boundaries"
+  ],
+  "properties": {
+    "mapping_friction_schema_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "mapping_id": {"type": "string", "minLength": 1},
+    "mapping_readiness": {"enum": ["blocked", "provisional", "verified"]},
+    "required_signal_progress": {"type": "object"},
+    "transformation_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "mapping_iteration_count": {"type": "integer", "minimum": 0},
+    "mapping_versions_observed": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "decision_count": {"type": "integer", "minimum": 0},
+    "approval_activity_count": {"type": "integer", "minimum": 0},
+    "stakeholder_dependency_count": {"type": "integer", "minimum": 0},
+    "issue_activity_counts": {"type": "object"},
+    "issue_register_counts": {"type": "object"},
+    "manual_review_record_count": {"type": "integer", "minimum": 0},
+    "manual_review_record_denominator": {"type": "integer", "minimum": 0},
+    "source_heterogeneity": {"type": "object"},
+    "elapsed_onboarding_cycle_seconds": {"type": ["number", "null"], "minimum": 0},
+    "active_effort": {
+      "type": "object",
+      "required": ["measurement_status", "observed_total_minutes", "complete_total_minutes", "observed_activity_count", "activity_denominator"],
+      "properties": {
+        "measurement_status": {"enum": ["not_recorded", "partial", "complete"]},
+        "observed_total_minutes": {"type": ["number", "null"], "minimum": 0},
+        "complete_total_minutes": {"type": ["number", "null"], "minimum": 0},
+        "observed_activity_count": {"type": "integer", "minimum": 0},
+        "activity_denominator": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "interpretation_boundaries": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  },
+  "additionalProperties": false
+}

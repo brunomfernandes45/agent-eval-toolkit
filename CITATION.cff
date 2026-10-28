@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this toolkit, please cite this software and the associated dissertation."
+type: software
+title: "Agent Evaluation Toolkit"
+version: "0.4.0"
+repository-code: "https://github.com/brunomfernandes45/agent-eval-toolkit"
+url: "https://github.com/brunomfernandes45/agent-eval-toolkit"
+authors:
+  - family-names: "Fernandes"
+    given-names: "Bruno Miguel Lopes da Rocha"
+license: MIT
+abstract: >-
+  Research toolkit accompanying Measuring Productivity Impact in Enterprise
+  Agentic AI Architectures. Evaluates workflow-run telemetry with explicit
+  evidence tiers, metric denominators, mapping readiness, privacy controls,
+  and auditable evaluation packages. Verification uses synthetic fixtures
+  and establishes bounded conformance rather than enterprise effectiveness.
+keywords:
+  - agentic AI
+  - workflow evaluation
+  - telemetry
+  - design science research
+  - reproducibility

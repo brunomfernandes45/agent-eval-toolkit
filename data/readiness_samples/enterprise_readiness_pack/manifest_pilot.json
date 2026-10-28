@@ -1,0 +1,90 @@
+{
+  "evaluation_id": "thesis-readiness-pilot-oracle",
+  "evaluation_design": "monitoring",
+  "measurement_window": {
+    "start": "2026-04-01T00:00:00Z",
+    "end": "2026-04-02T00:00:00Z",
+    "timezone": "UTC"
+  },
+  "baseline": {
+    "name": "manual_reference",
+    "type": "assumption_only",
+    "definition": "A declared manual-duration assumption used only for economic arithmetic."
+  },
+  "comparator": {
+    "name": "pilot_agent_v1",
+    "type": "agent_configuration",
+    "definition": "Three synthetic workflow runs with two completions and one failure."
+  },
+  "assumptions": {
+    "manual_baseline_cycle_time_seconds": 420,
+    "manual_baseline_human_effort_seconds": 300,
+    "loaded_labor_rate_usd_per_hour": 68,
+    "overhead_cost_usd_per_run": 0.15,
+    "tooling_cost_usd_per_run": 0.02
+  },
+  "telemetry_requirements": {
+    "required": [
+      "run_id",
+      "timestamp",
+      "duration",
+      "workflow_definition_id",
+      "trace_id",
+      "event_type",
+      "status",
+      "step_name",
+      "agent_configuration_id",
+      "agent_version",
+      "configuration_hash",
+      "business_success",
+      "human_effort_seconds",
+      "input_tokens",
+      "output_tokens",
+      "retry_markers",
+      "intervention_markers",
+      "tool_call_trace"
+    ],
+    "optional": [
+      "observed_cost_usd",
+      "quality_score",
+      "failure_modes",
+      "handoff_targets",
+      "routing_decisions"
+    ]
+  },
+  "configuration": {
+    "agent_configuration_id": "pilot-agent.v1",
+    "agent_version": "2026-04-01",
+    "configuration_hash": "sha256:pilot-agent-v1"
+  },
+  "expected_configurations": [
+    {
+      "group": "pilot_agent",
+      "agent_configuration_id": "pilot-agent.v1",
+      "agent_version": "2026-04-01",
+      "configuration_hash": "sha256:pilot-agent-v1",
+      "required": true
+    }
+  ],
+  "taxonomy": {
+    "deployment_mode": "synthetic_test",
+    "workflow_integration": "offline_harness",
+    "autonomy_level": "bounded_autonomy",
+    "hitl_pattern": "approval_on_exception",
+    "statefulness": "workflow_stateful",
+    "memory_strategy": "trace_only",
+    "composition": "single_agent_with_tools",
+    "decomposition_strategy": "fixed_steps",
+    "allocation_mechanism": "static_assignment",
+    "routing_strategy": "rule_based",
+    "protocol_surfaces": ["synthetic_jsonl"]
+  },
+  "inclusion_rules": ["Include all three hand-authored oracle runs."],
+  "exclusion_rules": [],
+  "run_exclusions": [],
+  "interpretation_boundaries": [
+    "Economic values are assumption-based arithmetic, not observed ROI.",
+    "Failed runs are reliability evidence and are ineligible for positive productivity value."
+  ],
+  "concurrent_changes": []
+}

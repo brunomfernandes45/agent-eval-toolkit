@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-eval-toolkit.local/schemas/langfuse_mapping.schema.json",
+  "title": "Offline Langfuse Mapping Configuration",
+  "type": "object",
+  "required": ["workflow_family", "workflow_definition_id", "metadata_paths", "status_mapping"],
+  "properties": {
+    "description": {"type": "string"},
+    "workflow_family": {"type": "string", "minLength": 1},
+    "workflow_definition_id": {"type": "string", "minLength": 1},
+    "metadata_paths": {
+      "type": "object",
+      "required": [
+        "status", "agent_configuration_id", "agent_version", "configuration_hash",
+        "retry", "intervention", "handoff", "routing", "quality"
+      ],
+      "additionalProperties": {"type": "string", "minLength": 1}
+    },
+    "status_mapping": {
+      "type": "object",
+      "required": ["approved", "completed", "failed"],
+      "properties": {
+        "approved": {"type": "boolean"},
+        "completed": {"$ref": "#/$defs/nonEmptyScalarArray"},
+        "failed": {"$ref": "#/$defs/nonEmptyScalarArray"}
+      },
+      "additionalProperties": false
+    },
+    "body_evidence": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {"mode": {"const": "omit"}},
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["mode", "key_id"],
+          "properties": {
+            "mode": {"const": "hmac_sha256"},
+            "hmac_key_env": {"type": "string", "minLength": 1},
+            "key_env": {"type": "string", "minLength": 1},
+            "key_id": {"type": "string", "minLength": 1}
+          },
+          "oneOf": [
+            {"required": ["hmac_key_env"]},
+            {"required": ["key_env"]}
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "nonEmptyScalarArray": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": ["string", "number", "integer", "boolean"]},
+      "uniqueItems": true
+    }
+  },
+  "additionalProperties": false
+}

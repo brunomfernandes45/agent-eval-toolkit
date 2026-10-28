@@ -1,0 +1,118 @@
+{
+  "evaluation_id": "support-ticket-resolution-pilot-2026-03",
+  "evaluation_design": "monitoring",
+  "measurement_window": {
+    "start": "2026-03-20T00:00:00Z",
+    "end": "2026-03-21T00:00:00Z",
+    "timezone": "UTC"
+  },
+  "baseline": {
+    "name": "manual_ticket_resolution",
+    "type": "manual_process",
+    "definition": "Manual support-ticket resolution using the same workflow boundary and completion criteria."
+  },
+  "comparator": {
+    "name": "support_agent_v1",
+    "type": "agent_configuration",
+    "definition": "Embedded support-ticket resolution agent using the v1 orchestration policy."
+  },
+  "assumptions": {
+    "manual_baseline_cycle_time_seconds": 420,
+    "manual_baseline_human_effort_seconds": 300,
+    "loaded_labor_rate_usd_per_hour": 68,
+    "overhead_cost_usd_per_run": 0.15,
+    "tooling_cost_usd_per_run": 0.02,
+    "sensitivity": {
+      "manual_baseline_cycle_time_seconds": {
+        "low": 360,
+        "high": 480
+      },
+      "manual_baseline_human_effort_seconds": {
+        "low": 240,
+        "high": 360
+      },
+      "loaded_labor_rate_usd_per_hour": {
+        "low": 50,
+        "high": 85
+      }
+    }
+  },
+  "telemetry_requirements": {
+    "required": [
+      "run_id",
+      "timestamp",
+      "workflow_definition_id",
+      "trace_id",
+      "event_type",
+      "status",
+      "step_name",
+      "agent_configuration_id",
+      "agent_version",
+      "configuration_hash",
+      "business_success",
+      "human_effort_seconds",
+      "input_tokens",
+      "output_tokens",
+      "intervention_markers",
+      "retry_markers",
+      "tool_call_trace"
+    ],
+    "optional": [
+      "model_name",
+      "prompt_version",
+      "observed_cost_usd",
+      "quality_score",
+      "failure_mode",
+      "failure_modes",
+      "handoff_targets",
+      "routing_decisions"
+    ]
+  },
+  "configuration": {
+    "agent_configuration_id": "support-agent.v1",
+    "agent_version": "2026-03-15",
+    "configuration_hash": "sha256:sample-support-agent-v1",
+    "model_name": "gpt-5.4-mini",
+    "prompt_version": "support-resolution.prompt.v3",
+    "tool_registry_version": "ticket-tools.v2",
+    "orchestration_policy": "single-agent-with-human-approval"
+  },
+  "expected_configurations": [
+    {
+      "group": "pilot_agent",
+      "agent_configuration_id": "support-agent.v1",
+      "agent_version": "2026-03-15",
+      "configuration_hash": "sha256:sample-support-agent-v1",
+      "required": true
+    }
+  ],
+  "taxonomy": {
+    "deployment_mode": "embedded_automation",
+    "workflow_integration": "support_ticket_resolution",
+    "autonomy_level": "bounded_autonomy",
+    "hitl_pattern": "approval_on_exception",
+    "statefulness": "workflow_stateful",
+    "memory_strategy": "session_trace_only",
+    "composition": "single_agent_with_tools",
+    "decomposition_strategy": "rule_based_steps",
+    "allocation_mechanism": "static_assignment",
+    "routing_strategy": "rule_based_routing",
+    "protocol_surfaces": ["internal_tool_api"]
+  },
+  "inclusion_rules": [
+    "Include runs that start and end within the measurement window.",
+    "Include support-ticket resolution runs mapped to support-ticket-resolution.v1."
+  ],
+  "exclusion_rules": [
+    "Exclude runs affected by known configuration drift or manual test traffic."
+  ],
+  "run_exclusions": [],
+  "interpretation_boundaries": [
+    "Sample data is synthetic and only demonstrates toolkit behavior.",
+    "Monitoring design supports descriptive evidence and does not establish causal impact.",
+    "ROI estimates are assumption-based and should be interpreted with the sensitivity range."
+  ],
+  "concurrent_changes": [
+    "No concurrent operational changes are represented in the sample dataset."
+  ]
+}

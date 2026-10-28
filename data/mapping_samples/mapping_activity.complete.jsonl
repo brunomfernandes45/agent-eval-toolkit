@@ -1,0 +1,4 @@
+{"activity_id":"activity-001","timestamp":"2026-04-01T09:00:00Z","actor_role":"data-engineer","activity_type":"source_review","active_effort_minutes":10,"mapping_version":"v1","issue_id":null,"outcome":"profiled"}
+{"activity_id":"activity-002","timestamp":"2026-04-01T09:20:00Z","actor_role":"workflow-owner","activity_type":"semantic_decision","active_effort_minutes":20,"mapping_version":"v1","issue_id":"MAP-001","outcome":"status semantics confirmed"}
+{"activity_id":"activity-003","timestamp":"2026-04-01T09:45:00Z","actor_role":"data-engineer","activity_type":"mapping_change","active_effort_minutes":5,"mapping_version":"v2","issue_id":"MAP-001","outcome":"lookup added"}
+{"activity_id":"activity-004","timestamp":"2026-04-01T10:00:00Z","actor_role":"workflow-owner","activity_type":"approval","active_effort_minutes":10,"mapping_version":"v2","issue_id":null,"outcome":"approved"}

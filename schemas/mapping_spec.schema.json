@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-eval-toolkit.local/schemas/mapping_spec.schema.json",
+  "title": "Enterprise Mapping Specification",
+  "type": "object",
+  "required": [
+    "mapping_id", "mapping_version", "logical_source_id", "mappings",
+    "workflow_boundary_approval", "business_status_approval", "privacy_approval", "issues"
+  ],
+  "properties": {
+    "mapping_spec_schema_version": {"type": "string"},
+    "mapping_id": {"type": "string", "minLength": 1},
+    "mapping_version": {"type": "string", "minLength": 1},
+    "logical_source_id": {"type": "string", "minLength": 1},
+    "mappings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "canonical_signal", "source_paths", "transformation", "semantic_status",
+          "transformation_tested", "approval"
+        ],
+        "properties": {
+          "canonical_signal": {"type": "string", "minLength": 1},
+          "source_paths": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "transformation": {"enum": ["direct", "coercion", "lookup", "derivation", "aggregation", "manual_review", "unmapped"]},
+          "semantic_status": {"enum": ["confirmed", "provisional", "unresolved"]},
+          "transformation_tested": {"type": "boolean"},
+          "approval": {"$ref": "#/$defs/approval"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "workflow_boundary_approval": {"$ref": "#/$defs/approval"},
+    "business_status_approval": {"$ref": "#/$defs/approval"},
+    "privacy_approval": {"$ref": "#/$defs/approval"},
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["issue_id", "severity", "status"],
+        "properties": {
+          "issue_id": {"type": "string", "minLength": 1},
+          "severity": {"enum": ["critical", "warning", "info"]},
+          "status": {"enum": ["open", "resolved", "accepted"]},
+          "canonical_signal": {"type": ["string", "null"]},
+          "evidence_ref": {"type": ["string", "null"]}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "approval": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": {"enum": ["approved", "provisional", "unresolved"]},
+        "reviewer_role": {"type": ["string", "null"]},
+        "evidence_ref": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

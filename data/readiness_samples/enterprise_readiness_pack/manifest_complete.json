@@ -1,0 +1,75 @@
+{
+  "evaluation_id": "thesis-readiness-complete",
+  "evaluation_design": "monitoring",
+  "measurement_window": {
+    "start": "2026-04-01T00:00:00Z",
+    "end": "2026-04-02T00:00:00Z",
+    "timezone": "UTC"
+  },
+  "baseline": {
+    "name": "not_applicable",
+    "type": "monitoring_reference",
+    "definition": "No causal baseline is used in this synthetic monitoring scenario."
+  },
+  "comparator": {
+    "name": "enterprise_agent_v1",
+    "type": "agent_configuration",
+    "definition": "The synthetic configuration under readiness evaluation."
+  },
+  "assumptions": {},
+  "telemetry_requirements": {
+    "required": [
+      "run_id",
+      "timestamp",
+      "duration",
+      "workflow_definition_id",
+      "trace_id",
+      "event_type",
+      "status",
+      "step_name",
+      "agent_configuration_id",
+      "agent_version",
+      "configuration_hash",
+      "input_tokens",
+      "output_tokens",
+      "quality_score",
+      "retry_markers",
+      "intervention_markers",
+      "tool_call_trace"
+    ],
+    "optional": [
+      "observed_cost_usd",
+      "failure_modes",
+      "handoff_targets",
+      "routing_decisions",
+      "model_name",
+      "prompt_version"
+    ]
+  },
+  "configuration": {
+    "agent_configuration_id": "enterprise-agent.v1",
+    "agent_version": "2026-04-01",
+    "configuration_hash": "sha256:enterprise-agent-v1"
+  },
+  "taxonomy": {
+    "deployment_mode": "synthetic_test",
+    "workflow_integration": "offline_harness",
+    "autonomy_level": "bounded_autonomy",
+    "hitl_pattern": "none",
+    "statefulness": "workflow_stateful",
+    "memory_strategy": "trace_only",
+    "composition": "single_agent_with_tools",
+    "decomposition_strategy": "fixed_steps",
+    "allocation_mechanism": "static_assignment",
+    "routing_strategy": "rule_based",
+    "protocol_surfaces": ["synthetic_jsonl"]
+  },
+  "inclusion_rules": ["Include complete synthetic workflow runs inside the fixed window."],
+  "exclusion_rules": ["Exclude runs outside the fixed window."],
+  "run_exclusions": [],
+  "interpretation_boundaries": [
+    "This scenario demonstrates deterministic framework readiness only.",
+    "Monitoring evidence is descriptive and does not establish causal impact."
+  ],
+  "concurrent_changes": []
+}

@@ -1,0 +1,37 @@
+{
+  "mapping_schema_version": "1.0.0",
+  "workflow_family": "support_resolution",
+  "workflow_definition_id": "support-resolution.v1",
+  "logical_source_id": "synthetic-otel-support",
+  "mapping_id": "otel-support-mapping",
+  "mapping_version": "1.0.0",
+  "attribute_map": {
+    "event_id": "workflow.event.id",
+    "workflow_run_id": "workflow.run.id",
+    "status": "workflow.status",
+    "step_name": "workflow.step.name",
+    "agent_config_id": "agent.configuration.id",
+    "agent_version": "agent.configuration.version",
+    "config_hash": "agent.configuration.hash",
+    "input_tokens": "gen_ai.usage.input_tokens",
+    "output_tokens": "gen_ai.usage.output_tokens",
+    "observed_cost_usd": "evaluation.observed_cost_usd",
+    "quality_score": "evaluation.quality_score"
+  },
+  "event_name_map": {
+    "workflow.started": "run_started",
+    "workflow.step.completed": "step_completed",
+    "workflow.completed": "run_completed",
+    "workflow.failed": "run_failed"
+  },
+  "status_map": {
+    "in_progress": ["running"],
+    "completed": ["completed"],
+    "failed": ["failed"]
+  },
+  "trace_as_workflow_run_approved": false,
+  "mapping_approval": {"status": "approved", "reviewer_role": "workflow-owner", "evidence_ref": "synthetic-mapping-review"},
+  "workflow_boundary_approval": {"status": "approved", "reviewer_role": "workflow-owner", "evidence_ref": "synthetic-boundary-review"},
+  "business_status_approval": {"status": "approved", "reviewer_role": "workflow-owner", "evidence_ref": "synthetic-status-review"},
+  "privacy_approval": {"status": "approved", "reviewer_role": "data-owner", "evidence_ref": "synthetic-privacy-review"}
+}
